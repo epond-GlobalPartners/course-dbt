@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: fact_page_views
+    description: Gives number of page views by day by product
+    columns:
+      - name: event_date
+        tests:
+          - not_null
+      - name: page_views
+        tests:
+          - not_null
+      - name: product_name
+        tests:
+          - not_null
+  
+  - name: int_events_product
+    description: int model that removes the timestamp from the created_at field to allow for a more meaningful event count for use in the fact models
+    columns:
+      - name: event_date
+        tests:
+          - not_null
+      - name: event_count
+        tests:
+          - not_null
+      - name: product_id
+        tests:
+          - not_null
+      - name: event_type
+        tests:
+          - not_null
+
+  - name: int_order_products
+    description: pulls in product information for orders
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: order_quantity
+        tests:
+          - not_null
+      - name: product_id
+        tests:
+          - not_null
+      - name: product_name
+        tests:
+          - not_null
+      - name: product_price
+        tests:
+          - not_null
