@@ -1,0 +1,6 @@
+version: 2
+
+macros:
+  - name: aggregate_by_event_type
+    description: calculates the total number of checkouts and page views for each product
+     

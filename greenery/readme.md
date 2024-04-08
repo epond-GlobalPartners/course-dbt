@@ -20,6 +20,40 @@ the following products had w/w inventory changes:
 - Philodendron
 - String of pearls
 
+wk 3:
+1) conversion rate = 0.624567
+2) PRODUCT_NAME	CONVERSION_RATE
+String of pearls	0.6
+Arrow Head	0.546875
+Pilea Peperomioides	0.466667
+Philodendron	0.47619
+Rubber Plant	0.5
+Jade Plant	0.478261
+Orchid	0.453333
+Cactus	0.545455
+Birds Nest Fern	0.4125
+Snake Plant	0.39726
+Spider Plant	0.474576
+Pothos	0.328125
+Peace Lily	0.402985
+Boston Fern	0.412698
+Dragon Tree	0.467742
+Bird of Paradise	0.45
+Devil's Ivy	0.488889
+Money Tree	0.464286
+Ponytail Palm	0.394366
+Ficus	0.426471
+Majesty Palm	0.478261
+Pink Anthurium	0.418919
+Calathea Makoyana	0.509434
+Monstera	0.510204
+Alocasia Polly	0.388889
+Bamboo	0.521739
+Aloe Vera	0.492308
+Angel Wings Begonia	0.387097
+Fiddle Leaf Fig	0.474576
+ZZ Plant	0.523077
+
 -----------------
 
 here's my SQL for all of the answers, I don't know if we're supposed to include it 👛 🕗 🚨
@@ -130,3 +164,33 @@ select
     count(case when number_of_orders > 1 then 1 end) / count(*) as repeat_rate
 from
     orders_by_user obu;
+
+SELECT
+    ep.product_id,
+    SUM(CASE WHEN ep.event_type = 'checkout' THEN ep.event_count ELSE 0 END) AS num_checkouts,
+    SUM(CASE WHEN ep.event_type = 'page_view' THEN ep.event_count ELSE 0 END) AS total_page_views,
+    CASE
+        WHEN SUM(CASE WHEN ep.event_type = 'page_view' THEN ep.event_count ELSE 0 END) = 0 THEN NULL
+        ELSE SUM(CASE WHEN ep.event_type = 'checkout' THEN ep.event_count ELSE 0 END) / SUM(CASE WHEN ep.event_type = 'page_view' THEN ep.event_count ELSE 0 END)
+    END AS conversion_rate
+FROM
+    {{ ref('int_events_product') }} ep
+GROUP BY
+    ep.product_id;
+
+SELECT
+    ep.product_id,
+    p.name as product_name,
+    SUM(CASE WHEN ep.event_type = 'checkout' THEN ep.event_count ELSE 0 END) AS num_checkouts,
+    SUM(CASE WHEN ep.event_type = 'page_view' THEN ep.event_count ELSE 0 END) AS total_page_views,
+    CASE
+        WHEN SUM(CASE WHEN ep.event_type = 'page_view' THEN ep.event_count ELSE 0 END) = 0 THEN NULL
+        ELSE SUM(CASE WHEN ep.event_type = 'checkout' THEN ep.event_count ELSE 0 END) / SUM(CASE WHEN ep.event_type = 'page_view' THEN ep.event_count ELSE 0 END)
+    END AS conversion_rate
+FROM
+    {{ ref('int_events_product') }} ep
+left join
+    {{ ref('stg_products') }} p on p.product_id = ep.product_id
+GROUP BY
+    ep.product_id,
+    p.name;
