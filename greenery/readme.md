@@ -54,6 +54,32 @@ Angel Wings Begonia	0.387097
 Fiddle Leaf Fig	0.474576
 ZZ Plant	0.523077
 
+wk 4:
+
+1.2: w/w product changes
+Pothos
+Philodendron
+Monstera
+String of pearls
+Bamboo
+ZZ Plant
+
+
+1.3: out of stock
+Pothos
+String of pearls
+
+2:
+STAGE	SESSION_COUNT
+page_view	578
+add_to_cart	467
+checkout	361
+
+atc -> co had biggest drop off of -22.7%
+
+
+3a: have our tables & metrics documented in a data catalog so we don't have to spend as much time playing in the sandbox that is our data swamp
+
 -----------------
 
 here's my SQL for all of the answers, I don't know if we're supposed to include it 👛 🕗 🚨
